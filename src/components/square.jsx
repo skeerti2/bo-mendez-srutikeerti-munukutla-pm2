@@ -216,11 +216,21 @@ export function Square(props) {
         icon = "fa fa-ship";
     }
 
-    // dispatch(boardClick(props.x_coord, props.y_coord, props.enemy, props.hit, props.miss))
+    if (props.hit) {
+        colorClass = 'hitSquare';
+        icon = "fa fa-bomb";
+    } else if (props.miss) {
+        colorClass = 'clickedBox';
+        icon = "fa fa-check-square";
+    }
+
+    function handleClick() {
+        dispatch(boardClick(props.x_coord, props.y_coord, props.enemy, props.hit, props.miss))
+    }
 
     return (
         //change to include  onhover event next
-        <td  className="unclicked">
+        <td  className="unclicked" class={colorClass} onClick={handleClick()}>
             {<i class={icon}></i>}
         </td>
     )

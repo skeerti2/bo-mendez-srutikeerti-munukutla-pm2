@@ -265,22 +265,29 @@ export const BoardReducer = (state, action) => {
 //   }
 //   }
   if (action.type === BOARD_CLICK) {
-        
-  } 
+    console.log("x", action.payload.x_coord,"y", action.payload.y_coord, "hit", action.payload.hit, "miss", action.payload.miss);
+    const newBoard = {...state.board};
+    newBoard[action.payload.y_coord][action.payload.x_coord] = {
+      ...newBoard[action.payload.y_coord][action.payload.x_coord],
+      hit : action.payload.hit,
+      miss : action.payload.miss,
+    }
+    return {
+      ...state,
+    }
+  }
   if(action.type === SET_GAME_TYPE){
      return {
      ...state,
      freePlay : action.payload.gameType === "normal" ? false : true
      }
     }
-    if (action.type === RESTART) {
-      let newState = initialStateFunc();
-      let gameStatus = action.payload.isFreePlay;
-      return {
-        ...newState,
-        freePlay: gameStatus,
-      }
+  if (action.type === RESTART) {
+    return {
+      freePlay: action.payload.isFreePlay,
+      board: buildBoard(),
     }
+  }
 //   //if switching turns and board to played is for player 0, setaiPlayed to false, since AI needs to play next
 //   if(action.type === SWITCH_TURNS && action.payload==0){
 //     return {
