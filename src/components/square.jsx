@@ -12,7 +12,7 @@ export function Square(props) {
     // const [miss, setMiss] = useState(false);
     // const [hover, setHover] = useState(false);
     // const isFreePlay = useSelector(state => state.BoardReducer.gameType.freePlay);
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
     /*
     const board_state = useSelector(state => state.BoardReducer);
     const playerTurn = useSelector(state => state.PlayerReducer.player_turn);
@@ -207,10 +207,30 @@ export function Square(props) {
 
     }
     */
+    let colorClass;
+    let hoverClass = 'hoverClass';
+
+    let icon = "";
+    if (props.is_boat) {
+        colorClass = 'ship';
+        icon = "fa fa-ship";
+    }
+
+    if (props.hit) {
+        colorClass = 'hitSquare';
+        icon = "fa fa-bomb";
+    } else if (props.miss) {
+        colorClass = 'clickedBox';
+        icon = "fa fa-check-square";
+    }
+
+    
+    dispatch(boardClick(props.x_coord, props.y_coord, props.enemy, props.hit, props.miss))
+
     return (
         //change to include  onhover event next
-        <td  className="unclicked"  >
-            {/* <i class={icon}></i> */}
+        <td  className="unclicked" class={colorClass} >
+            {<i class={icon}></i>}
         </td>
     )
 

@@ -6,111 +6,110 @@ function initialStateFunc() {
   const initialState = {
   freePlay: false,
   board: buildBoard()
-  
   }
- return initialState
+  return initialState
  
 }
 
   
-  function buildBoard(){
-    let arr = []
-    for(let i=0; i < 10; i++){
-      arr.push(buildinitialRows())
+function buildBoard(){
+  let arr = []
+  for(let i=0; i < 10; i++){
+    arr.push(buildinitialRows())
+  }
+  arr = putShipsOnBoard(arr)
+  return arr
+}
+
+function buildinitialRows(){
+  let row = []
+  for(let i=0; i< 10; i++){
+    row.push(buildSquare());
+  }
+  return row;
+}
+
+
+function buildSquare(){
+    let squareState = {
+      hit:false,
+      miss: false,
+      isBoat: false,
+      unselected: false
     }
-    return arr
-  }
-
-  function buildinitialRows(){
-    let row = []
-    for(let i=0; i< 10; i++){
-      row.push(buildSquare());
-    }
-    return row;
-  }
-
-
-  function buildSquare(){
-      let squareState = {
-        hit:false,
-        miss: false,
-        isBoat: false,
-        unselected: false
-      }
-    return squareState;
-  }
+  return squareState;
+}
 
 
 //   console.log(initialState.player_zero.ships)
 //   console.log(initialState.player_one.ships)
-//   putShipsOnBoard();
 
-//   function putShipsOnBoard() {
-//     for(let ship in ships){
-//       placeOneShip(ship, ships[ship], initialState.player_zero)
-//       if(!initialState.gameType.freePlay){
-//         placeOneShip(ship, ships[ship], initialState.player_one)
-//       }
-//     }
-//   }
+function putShipsOnBoard(board) {
+  for(let ship in ships){
+    board = placeOneShip(ship, ships[ship], board);
+  }
+  return board;
+}
 
-//   // Helper function to place one ship on board
-//   function placeOneShip(shipType, shipSize, player_no) {
-//     let isVertical = getRandomInteger(2);
-//     // let [randomRow, randomCol] = getRowAndCol(shipSize, isVertical);
-//     // check whether ship placement is valid before placing ship
-    
-//     // console.log("current ships", player_no.ships);
-//     let newRowCol = getRowAndCol(shipSize, isVertical);
-//     let randomRow = newRowCol[0];
-//     let randomCol = newRowCol[1];
-//     fillShip(randomRow, randomCol, shipSize, shipType, player_no,isVertical);
-//     while (!shipPlacementValid(shipType, player_no)) {
-//       newRowCol = getRowAndCol(shipSize, isVertical);
-//       randomRow = newRowCol[0];
-//       randomCol = newRowCol[1];
-//       fillShip(randomRow, randomCol, shipSize, shipType, player_no, isVertical);
-//     }
-//     // initialState.ships.push({ x_coord: randomCol, y_coord: randomRow });
+// Helper function to place one ship on board
+function placeOneShip(shipType, shipSize, board) {
+  let isVertical = getRandomInteger(2);
 
-//   }
+  let newRowCol = getRowAndCol(shipSize, isVertical);
+  let randomRow = newRowCol[0];
+  let randomCol = newRowCol[1];
+  // fillShip(randomRow, randomCol, shipSize, isVertical, board);
+  while (!shipPlacementValid(randomRow, randomCol, shipSize, isVertical, board)) {
+    console.log("entered while")
+    newRowCol = getRowAndCol(shipSize, isVertical);
+    randomRow = newRowCol[0];
+    randomCol = newRowCol[1];
+  }
+  board = fillShip(randomRow, randomCol, shipSize, isVertical, board);
+  return board;
+}
 
-//   // Validates whether the ship overlaps an existing ship in the given player's
-//   // ship attribute
-//   function shipPlacementValid(ship, player_no) {
-//     // check each ship
-//     for (let shipType in player_no.ships) {
-//       // check every ship other than current ship
-//       if (!(shipType === ship)) {
-//         // iterate through each coordinate
-//         for (let testShip of player_no.ships[shipType]) {
-//           if (player_no.ships[ship].find(obj => obj.y_coord === testShip.y_coord && obj.x_coord === testShip.x_coord)) {
-//             return false;
-//           }
-//         }
-//       }
-//     }
-//     return true;
-//   }
+// Validates whether the ship overlaps an existing ship in the given player's
+// ship attribute
+function shipPlacementValid(row, col, length, isVertical, board) {
+  // check each ship
+  let currRow = row;
+  let currCol = col;
+  for (let i = 0; i < length; i++) {
+    if (isVertical) {
+      if (board[col][currRow].isBoat) {
+        console.log("false vert at x:", col, "y:", currRow);
+        return false;
+      }
+      currRow++;
+    } else {
+      if (board[currCol][row].isBoat) {
+        console.log("false horiz at x:", currCol, "y:", row);
+        return false;
+      }
+      currCol++;
+    }
+  }
+  return true;
+}
 
-//   // Adds the row/col of each ship to the given player's ships attribute
-//   function fillShip(row, col, length, shipType, player_no, fillVertical) {
-//     player_no.ships[shipType] = []
-//     let currRow = row;
-//     let currCol = col;
-//     for (let i = 0; i < length; i++) {
-//       if (fillVertical) {
-//         player_no.ships[shipType].push({ x_coord: col, y_coord: currRow });
-
-//         console.log("add vertical ship at", col, currRow)
-//         currRow++;
-//       } else {
-//         player_no.ships[shipType].push({ x_coord: currCol, y_coord: row });
-//         console.log("add horizontal ship at", currCol, row)
-//         currCol++;
-//       }
-//     }
-//   }
+// Adds the row/col of each ship to the given player's ships attribute
+function fillShip(row, col, length, fillVertical, board) {
+  let currRow = row;
+  let currCol = col;
+  for (let i = 0; i < length; i++) {
+    if (fillVertical) {
+      board[col][currRow].isBoat = true;
+      console.log("add vertical ship at", col, currRow, board)
+      currRow++;
+    } else {
+      board[currCol][row].isBoat = true;
+      console.log("add horizontal ship at", currCol, row, board)
+      currCol++;
+    }
+  }
+  return board;
+}
 
 //   // Helper function checking whether a ship can be placed
 //   // on given location with specified ship length
@@ -155,46 +154,46 @@ function initialStateFunc() {
 //   //   return true;
 //   // }
 
-//   // Helper function to get random row and column values
-//   function getRowAndCol(shipSize, isVertical) {
-//     let rowMax = SIZE_TEN;
-//     let colMax = SIZE_TEN;
-//     if (isVertical) {
-//       rowMax = 9 - shipSize;
-//     } else {
-//       colMax = 9 - shipSize;
-//     }
-//     let randomRow = getRandomInteger(rowMax);
-//     let randomCol = getRandomInteger(colMax);
-//     return [randomRow, randomCol];
-//   }
+  // Helper function to get random row and column values
+  function getRowAndCol(shipSize, isVertical) {
+    let rowMax = SIZE_TEN;
+    let colMax = SIZE_TEN;
+    if (isVertical) {
+      rowMax = 9 - shipSize;
+    } else {
+      colMax = 9 - shipSize;
+    }
+    let randomRow = getRandomInteger(rowMax);
+    let randomCol = getRandomInteger(colMax);
+    return [randomRow, randomCol];
+  }
 
-//   // Helper function that returns a random integer between
-//   // 0 and a given maxInt
-//   function getRandomInteger(maxInt) {
-//     return Math.floor(Math.random() * maxInt);
-//   }
+  // Helper function that returns a random integer between
+  // 0 (inclusive) and a given maxInt (exclusive)
+  function getRandomInteger(maxInt) {
+    return Math.floor(Math.random() * maxInt);
+  }
 
 
 //   console.log(initialState);
 //   return initialState;
 // }
 
-// //define a dictionary of ships with respective lengths. 
-// const ships = {
-//   carrier: 5,
-//   battleship: 4,
-//   destroyer: 3,
-//   submarine: 3,
-//   patrolBoat: 2
-// }
+//define a dictionary of ships with respective lengths. 
+const ships = {
+  carrier: 5,
+  battleship: 4,
+  destroyer: 3,
+  submarine: 3,
+  patrolBoat: 2
+}
 
   
 // // REDUCER STARTS HERE
- export const BoardReducer = (state, action) => {
-   if (state === undefined) {
-     return initialStateFunc();
-   }
+export const BoardReducer = (state, action) => {
+  if (state === undefined) {
+    return initialStateFunc();
+  }
 //   let player_no;
 //   let opponent_player;
 //   //if board is clicked,
@@ -265,12 +264,30 @@ function initialStateFunc() {
 //     }
 //   }
 //   }
-   if(action.type === SET_GAME_TYPE){
+  if (action.type === BOARD_CLICK) {
+    console.log("x", action.payload.x_coord,"y", action.payload.y_coord, "hit", action.payload.hit, "miss", action.payload.miss);
+    const newBoard = {...state.board};
+    newBoard[action.payload.y_coord][action.payload.x_coord] = {
+      ...newBoard[action.payload.y_coord][action.payload.x_coord],
+      hit : action.payload.hit,
+      miss : action.payload.miss,
+    }
+    return {
+      ...state,
+    }
+  }
+  if(action.type === SET_GAME_TYPE){
      return {
      ...state,
      freePlay : action.payload.gameType === "normal" ? false : true
      }
     }
+  if (action.type === RESTART) {
+    return {
+      freePlay: action.payload.isFreePlay,
+      board: buildBoard(),
+    }
+  }
 //   //if switching turns and board to played is for player 0, setaiPlayed to false, since AI needs to play next
 //   if(action.type === SWITCH_TURNS && action.payload==0){
 //     return {
