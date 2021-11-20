@@ -216,7 +216,7 @@ export function Square(props) {
         icon = "fa fa-ship";
     }
 
-    dispatch(boardClick(props.x_coord, props.y_coord, props.enemy, props.hit, props.miss))
+    // dispatch(boardClick(props.x_coord, props.y_coord, props.enemy, props.hit, props.miss))
 
     return (
         //change to include  onhover event next
