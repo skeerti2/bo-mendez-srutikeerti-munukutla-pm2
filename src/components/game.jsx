@@ -108,11 +108,11 @@ function Game() {
             <Restart/>
             <div className="row">
                 <div className={'col-lg-6 col-md-12 col-sm-12 '}>
-                    <Board board_type="human_player"/>
+                    <Board enemy={false}/>
                 </div>
                 
                 <div className={'col-lg-6 col-md-12 col-sm-12 '}>
-                    <Board board_type="enemy"/>
+                    <Board enemy={true}/>
                 </div>
             </div>
         </div>);

@@ -5,25 +5,23 @@ import { Square } from "./square";
 
 
 function Board(props) {
-  const board = initializeBoardState();
+  const board_state = useSelector(state => state.BoardReducer.board);
+  console.log(board_state);
+  const board = initializeBoard();
   
-
-  function initializeBoardState() {
+  function initializeBoard() {
     let gridRows = [];
-    let id = 0;
-    for (let y = 0; y < 10; y++) {
+    for(let row=0; row < board_state.length; row++){
       const rowSquares = [];
-      for (let x = 0; x < 10; x++) {
-        rowSquares.push(<Square id={id} x_coord={x} y_coord={y} player_id={props.player_id}/>);
-        id++;
+      for(let col=0; col < board_state[row].length; col++){
+        let square_state = board_state[row][col];
+        rowSquares.push(<Square x_coord={col} y_coord={row} enemy={props.enemy} hit={square_state.hit} miss={square_state.miss} unselected={square_state.unselected} is_boat={square_state.isBoat}/>);
       }
       gridRows.push(<tr>{rowSquares}</tr>);
     }
-
     // console.log(gridRows);
     return gridRows;
   }
-
 
   return (
     <div class="table-responsive">

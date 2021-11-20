@@ -19,6 +19,5 @@ import { PlayerReducer } from './player';
 
 
 export default combineReducers({
-    BoardReducer,
-    PlayerReducer
+    BoardReducer
 });
