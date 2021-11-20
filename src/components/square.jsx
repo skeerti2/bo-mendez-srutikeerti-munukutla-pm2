@@ -6,14 +6,14 @@ import { useDispatch, useSelector } from 'react-redux';
 
 export function Square(props) {
 
+    
+    // const [unselected, setUnselected] = useState(true);
+    // const [hit, setHit] = useState(false);
+    // const [miss, setMiss] = useState(false);
+    // const [hover, setHover] = useState(false);
+    // const isFreePlay = useSelector(state => state.BoardReducer.gameType.freePlay);
+    // const dispatch = useDispatch();
     /*
-    const [unselected, setUnselected] = useState(true);
-    const [hit, setHit] = useState(false);
-    const [miss, setMiss] = useState(false);
-    const [hover, setHover] = useState(false);
-    const isFreePlay = useSelector(state => state.BoardReducer.gameType.freePlay);
-    const dispatch = useDispatch();
-
     const board_state = useSelector(state => state.BoardReducer);
     const playerTurn = useSelector(state => state.PlayerReducer.player_turn);
     const aiPlayed = board_state.player_one.aiPlayed;
@@ -209,7 +209,7 @@ export function Square(props) {
     */
     return (
         //change to include  onhover event next
-        <td  id={props.id}  >
+        <td  className="unclicked"  >
             {/* <i class={icon}></i> */}
         </td>
     )

@@ -4,7 +4,7 @@ import Landing from './components/Landing.jsx';
 import Instructions from './components/Instructions.jsx';
 import Game from './components/game.jsx';
 import './App.css';
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './Battleship.css';
 import { Provider } from 'react-redux';
 import {createStore} from 'redux';
