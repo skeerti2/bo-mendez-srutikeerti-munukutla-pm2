@@ -5,7 +5,9 @@ function initialStateFunc() {
 
   const initialState = {
   freePlay: false,
-  board: buildBoard()
+  user_board: buildBoard(),
+  ai_board: buildBoard(),
+  aiPlayed: true
   }
   return initialState
  
@@ -265,17 +267,35 @@ export const BoardReducer = (state, action) => {
 //   }
 //   }
   if (action.type === BOARD_CLICK) {
-    console.log("x", action.payload.x_coord,"y", action.payload.y_coord, "hit", action.payload.hit, "miss", action.payload.miss);
-    const newBoard = {...state.board};
-    newBoard[action.payload.y_coord][action.payload.x_coord] = {
-      ...newBoard[action.payload.y_coord][action.payload.x_coord],
-      hit : action.payload.hit,
-      miss : action.payload.miss,
+    let board;
+    if(action.payload.enemy){
+      board = state.ai_board;
+    }else{
+      board = state.user_board
     }
-    return {
-      ...state,
-    }
+    let boardCopy = board.map(function(arr){
+      return arr.slice();
+    });
+    let squareCopy = { ...boardCopy[action.payload.row][action.payload.col] };
+    squareCopy.hit = action.payload.hit;
+    squareCopy.miss = action.payload.miss;
+    squareCopy.unselected = false;
+    boardCopy[action.payload.row][action.payload.col] = squareCopy;
+    if(action.payload.enemy){
+      return {
+        ...state,
+        ai_board : boardCopy,
+        aiPlayed : false
+      }
+    }else{
+      return {
+        ...state,
+        user_board : boardCopy,
+        aiPlayed : true
+      }
   }
+}
+
   if(action.type === SET_GAME_TYPE){
      return {
      ...state,
@@ -284,22 +304,12 @@ export const BoardReducer = (state, action) => {
     }
   if (action.type === RESTART) {
     return {
+      ...state,
       freePlay: action.payload.isFreePlay,
-      board: buildBoard(),
+      user_board: buildBoard(),
+      ai_board: buildBoard()
     }
   }
-//   //if switching turns and board to played is for player 0, setaiPlayed to false, since AI needs to play next
-//   if(action.type === SWITCH_TURNS && action.payload==0){
-//     return {
-//     ...state,
-//     player_one :{
-//       ...state.player_one,
-//       aiPlayed : false
-//     }
-    
-//     }
-
-//   }
    return state;
 };
 
