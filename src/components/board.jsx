@@ -5,7 +5,15 @@ import { Square } from "./square";
 
 
 function Board(props) {
-  const board_state = useSelector(state => state.BoardReducer.board);
+  const user_board = useSelector(state => state.BoardReducer.user_board);
+  const ai_board = useSelector(state => state.BoardReducer.ai_board);
+
+  let board_state;
+  if(props.enemy){
+    board_state = ai_board;
+  }else{
+    board_state = user_board;
+  }
   console.log(board_state);
   const board = initializeBoard();
   
@@ -15,7 +23,7 @@ function Board(props) {
       const rowSquares = [];
       for(let col=0; col < board_state[row].length; col++){
         let square_state = board_state[row][col];
-        rowSquares.push(<Square x_coord={col} y_coord={row} enemy={props.enemy} hit={square_state.hit} miss={square_state.miss} unselected={square_state.unselected} is_boat={square_state.isBoat}/>);
+        rowSquares.push(<Square row={row} col={col} enemy={props.enemy} hit={square_state.hit} miss={square_state.miss} unselected={square_state.unselected} is_boat={square_state.isBoat}/>);
       }
       gridRows.push(<tr>{rowSquares}</tr>);
     }

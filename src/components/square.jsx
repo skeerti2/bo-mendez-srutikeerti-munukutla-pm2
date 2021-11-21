@@ -5,8 +5,22 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 export function Square(props) {
+const user_board = useSelector(state => state.BoardReducer.user_board);
+  const ai_board = useSelector(state => state.BoardReducer.ai_board);
 
-    
+  let board_state;
+  if(props.enemy){
+    board_state = ai_board;
+  }else{
+    board_state = user_board;
+  }
+
+    // console.log(set_hit)
+    // if(set_hit){
+    //     console.log("hit!")
+    // }else{
+    //     console.log("miss")
+    // }
     // const [unselected, setUnselected] = useState(true);
     // const [hit, setHit] = useState(false);
     // const [miss, setMiss] = useState(false);
@@ -207,7 +221,7 @@ export function Square(props) {
 
     }
     */
-    let colorClass;
+    let colorClass='unclicked';
     let hoverClass = 'hoverClass';
 
     let icon = "";
@@ -224,12 +238,18 @@ export function Square(props) {
         icon = "fa fa-check-square";
     }
 
-    
-    dispatch(boardClick(props.x_coord, props.y_coord, props.enemy, props.hit, props.miss))
+    function handleClick(){
+        let isHit = false;
+        console.log(board_state[props.row][props.col]);
+       if(board_state[props.row][props.col].isBoat){
+            isHit = true;
+        }
+        dispatch(boardClick(props.row, props.col, props.enemy, isHit, !isHit))
+    }
 
     return (
         //change to include  onhover event next
-        <td  className="unclicked" class={colorClass} >
+        <td  className={colorClass} onClick={handleClick}>
             {<i class={icon}></i>}
         </td>
     )
