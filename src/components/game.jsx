@@ -9,53 +9,48 @@ import { boardClick } from '../actions/board';
 function Game() {
         const dispatch = useDispatch();
         const isFreePlay = useSelector(state => state.BoardReducer.freePlay);
+        const user_board = useSelector(state => state.BoardReducer.user_board);
+        const ai_board = useSelector(state => state.BoardReducer.ai_board);
+        const aiPlayed = useSelector(state => state.BoardReducer.aiPlayed);
+      
+        function getRandomInteger(maxInt) {
+            return Math.floor(Math.random() * maxInt);
+          }
+        
+          function isUnselected(x_coord, y_coord) {
+            if(ai_board[x_coord][y_coord].unselected){
+                return true;
+            }else{
+                return false
+            }
+        }
 
-        // function getRandomInteger(maxInt) {
-        //     return Math.floor(Math.random() * maxInt);
-        //   }
         
-        //   function isUnselected(x_coord, y_coord) {
-        //     console.log("AI check x:", x_coord, "y:", y_coord)
-        //     if (board_state.player_zero.clickedSquares.some(
-        //         e => e.x_coord === x_coord && e.y_coord === y_coord)) {
-        //         console.log("AI check already selected")
-        //         return false;
-        //     }
-        //     console.log("AI check unselected")
-        //     return true;
-        // }
+        function checkCoordinateIsShip(x_coord, y_coord) {
+            if(ai_board[x_coord][y_coord].isBoat){
+                return true;
+            }
+                return false
+          }
+        
+          function aiTurn() {
+            //console.log("aiClick()");
+            let x = getRandomInteger(10)
+            let y = getRandomInteger(10)
     
-        
-        
-        // function checkCoordinateIsShip(x, y) {
-        //   let opponentShips = board_state.player_zero.ships;
-        //   for(let ship in opponentShips){
-        //     if (opponentShips[ship].some(e => e.x_coord === x && e.y_coord === y)) {
-        //         return true;
-        //     }
-        //   }
-        //     return false;
-        //   }
-        
-        //   function aiTurn() {
-        //     //console.log("aiClick()");
-        //     let x = getRandomInteger(10)
-        //     let y = getRandomInteger(10)
+            while (isUnselected(x, y)) {
+                // get random number unselected
+                x = getRandomInteger(10)
+                y = getRandomInteger(10)
+            }
+            let hitShip = checkCoordinateIsShip(x, y);
+            dispatch(boardClick(x, y, false, hitShip, !hitShip))
     
-        //     while (isUnselected(x, y)) {
-        //         // get random number unselected
-        //         x = getRandomInteger(10)
-        //         y = getRandomInteger(10)
-        //     }
-        //     let hitShip = checkCoordinateIsShip(x, y);
-        //     dispatch(boardClick(x, y, "0", hitShip));
-    
-        //     //console.log("ai played from board.jsx, player is: player ", playerTurn, 'board is:', props.player_id)
-        //   }
+          }
         
-        //   if(playerTurn == 1 && !aiPlayed){
-        //     aiTurn();
-        //   }
+          if(!aiPlayed){
+            aiTurn();
+          }
         
         // let playerZeroWins = false;
         // let playerOneWins = false;
@@ -107,11 +102,11 @@ function Game() {
             <div className={winnerBoardClass}>Player {playerZeroWins ? 0 : 1} wins the game</div> */}
             <Restart/>
             <div className="row">
-                <div className={'col-lg-6 col-md-12 col-sm-12 '}>
+                <div className='col-lg-6 col-md-12 col-sm-12 playerBoard'>
                     <Board enemy={false}/>
                 </div>
                 
-                <div className={'col-lg-6 col-md-12 col-sm-12 '}>
+                <div className="col-lg-6 col-md-12 col-sm-12">
                     <Board enemy={true}/>
                 </div>
             </div>

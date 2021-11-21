@@ -6,7 +6,8 @@ function initialStateFunc() {
   const initialState = {
   freePlay: false,
   user_board: buildBoard(),
-  ai_board: buildBoard()
+  ai_board: buildBoard(),
+  aiPlayed: true
   }
   return initialState
  
@@ -278,17 +279,19 @@ export const BoardReducer = (state, action) => {
     let squareCopy = { ...boardCopy[action.payload.row][action.payload.col] };
     squareCopy.hit = action.payload.hit;
     squareCopy.miss = action.payload.miss;
-    squareCopy.unselected = action.payload.unselected;
+    squareCopy.unselected = false;
     boardCopy[action.payload.row][action.payload.col] = squareCopy;
     if(action.payload.enemy){
       return {
         ...state,
-        ai_board : boardCopy
+        ai_board : boardCopy,
+        aiPlayed : false
       }
     }else{
       return {
         ...state,
-        user_board : boardCopy
+        user_board : boardCopy,
+        aiPlayed : true
       }
   }
 }
@@ -303,22 +306,10 @@ export const BoardReducer = (state, action) => {
     return {
       ...state,
       freePlay: action.payload.isFreePlay,
-      board: buildBoard(),
+      user_board: buildBoard(),
       ai_board: buildBoard()
     }
   }
-//   //if switching turns and board to played is for player 0, setaiPlayed to false, since AI needs to play next
-//   if(action.type === SWITCH_TURNS && action.payload==0){
-//     return {
-//     ...state,
-//     player_one :{
-//       ...state.player_one,
-//       aiPlayed : false
-//     }
-    
-//     }
-
-//   }
    return state;
 };
 
