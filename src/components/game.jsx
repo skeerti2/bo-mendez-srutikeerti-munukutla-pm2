@@ -12,9 +12,20 @@ function Game() {
         const user_board = useSelector(state => state.BoardReducer.user_board);
         const ai_board = useSelector(state => state.BoardReducer.ai_board);
         const aiPlayed = useSelector(state => state.BoardReducer.aiPlayed);
-        const [aiScore,IncrementAIScore] = useState(0);
+        const [aiScore, IncrementAIScore] = useState(0);
         const [playerScore, incrementScore] = useState(0);
 
+
+
+        let winner = ""
+        if (aiScore == 17) {
+            winner = "AI wins! Better luck next time."
+            console.log("ai wins")
+        }
+        if (playerScore == 17) {
+            winner = "You win! Congrats!"
+            console.log("ai wins")
+        }
       
         function getRandomInteger(maxInt) {
             return Math.floor(Math.random() * maxInt);
@@ -56,6 +67,11 @@ function Game() {
                 IncrementAIScore(oldScore+1)
             }
           }
+
+          const resetScores = function() {
+            incrementScore(0);  
+            IncrementAIScore(0);
+          }
         
           if(!aiPlayed && !isFreePlay){
             aiTurn();
@@ -64,6 +80,7 @@ function Game() {
           function incrementPlayerScore(isHit){
             incrementScore(playerScore + isHit)
           }
+
         // let playerZeroWins = false;
         // let playerOneWins = false;
         // let player_one_score = boardStats.player_one.score;
@@ -89,8 +106,9 @@ function Game() {
         if(isFreePlay){
             return(
                 <div className="container board-wrapper">
-                <h1>Battleship</h1>            
-                <Restart/>
+                <h1>Battleship</h1>
+                <h2>{winner}</h2>
+                <Restart score={resetScores}/>
                 <div className="row">
                 <div className="col-lg-3 col-md-12 col-sm-12">
                     <h1>Scoreboard</h1>
@@ -107,12 +125,12 @@ function Game() {
         return (
         <div className="container board-wrapper">
             <h1>Battleship</h1>            
-            
+            <h2>{winner}</h2>
             {/* <div className="ScoreBoard">ScoreBoard: 
             Player: {playerTurn} <span> </span>
             Score: {playerTurn === 0 ? (17 - boardStats.player_one.score): (17- boardStats.player_zero.score)}</div>
             <div className={winnerBoardClass}>Player {playerZeroWins ? 0 : 1} wins the game</div> */}
-            <Restart/>
+            <Restart score={resetScores}/>
             <div className="row">
                 <div className='col-lg-6 col-md-12 col-sm-12 playerBoard'>
                     <h3>Your Board, AI Score: {aiScore}</h3>

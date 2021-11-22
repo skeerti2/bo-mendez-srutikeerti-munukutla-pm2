@@ -305,11 +305,15 @@ export const BoardReducer = (state, action) => {
      }
     }
   if (action.type === RESTART) {
+    let newUserBoard = []
+    let newAIBoard = []
+    newUserBoard = buildBoard()
+    newAIBoard = buildBoard()
     return {
       ...state,
       freePlay: action.payload.isFreePlay,
-      user_board: buildBoard(),
-      ai_board: buildBoard()
+      user_board: newUserBoard,
+      ai_board: newAIBoard,
     }
   }
    return state;
