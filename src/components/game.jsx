@@ -109,15 +109,15 @@ function Game() {
                 <h1>Battleship</h1>
                 <h2>{winner}</h2>
                 <Restart score={resetScores}/>
+                <h3>Your Score: {playerScore}</h3>
                 <div className="row">
                 <div className="col-lg-3 col-md-12 col-sm-12">
-                    <h1>Scoreboard</h1>
                     {/* <div className="ScoreBoard">          
                     Ships Hit: {(17- boardStats.player_zero.score)}</div>
                     <div className={winnerBoardClass}> Congratulations! You hit all ships</div> */}
                 </div>
                 <div className="col-lg-9 col-md-12 col-sm-12">
-                    <Board enemy ={false}/>
+                    <Board enemy ={true} doIncrementEnemyScore={incrementPlayerScore}/>
                 </div>
                 </div>
             </div>);

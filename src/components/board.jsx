@@ -29,7 +29,8 @@ function Board(props) {
         rowSquares.push(<Square row={row} col={col} enemy={props.enemy} hit={square_state.hit} miss={square_state.miss} unselected={square_state.unselected} is_boat={square_state.isBoat}
         toIncrementScore={doIncrementScore}/>)
         }else{
-          rowSquares.push(<Square row={row} col={col} enemy={props.enemy} hit={square_state.hit} miss={square_state.miss} unselected={square_state.unselected} is_boat={square_state.isBoat} />)
+          rowSquares.push(<Square row={row} col={col} enemy={props.enemy} hit={square_state.hit} miss={square_state.miss} unselected={square_state.unselected} is_boat={square_state.isBoat} 
+          toIncrementScore={doIncrementScore}/>)
         }
       }
       gridRows.push(<tr>{rowSquares}</tr>);
@@ -40,7 +41,7 @@ function Board(props) {
  
 
 function doIncrementScore(isHitScore){
-  props.doIncrementEnemyScore(isHitScore)
+  props.doIncrementEnemyScore(isHitScore);
 }
 
 
