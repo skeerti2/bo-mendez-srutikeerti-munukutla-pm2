@@ -1,6 +1,6 @@
 import { BOARD_CLICK } from "./constants"
 
-export const boardClick= (row, col, enemy, hit, miss) => {
+export const boardClick= (row, col, enemy, hit, miss, unselected) => {
     return {
         type: BOARD_CLICK,
         payload: {
@@ -9,6 +9,7 @@ export const boardClick= (row, col, enemy, hit, miss) => {
             enemy: enemy,
             hit: hit,
             miss: miss,
+            unselected: unselected
         }
     }
 }

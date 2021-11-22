@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import Board from './board.jsx';
 import Restart from './restart.jsx';
 import { useSelector, useDispatch } from 'react-redux';
@@ -12,6 +12,9 @@ function Game() {
         const user_board = useSelector(state => state.BoardReducer.user_board);
         const ai_board = useSelector(state => state.BoardReducer.ai_board);
         const aiPlayed = useSelector(state => state.BoardReducer.aiPlayed);
+        const [aiScore,IncrementAIScore] = useState(0);
+        const [playerScore, incrementScore] = useState(0);
+
       
         function getRandomInteger(maxInt) {
             return Math.floor(Math.random() * maxInt);
@@ -38,20 +41,29 @@ function Game() {
             let x = getRandomInteger(10)
             let y = getRandomInteger(10)
     
-            while (isUnselected(x, y)) {
+            while (!isUnselected(x, y)) {
                 // get random number unselected
                 x = getRandomInteger(10)
                 y = getRandomInteger(10)
             }
             let hitShip = checkCoordinateIsShip(x, y);
-            dispatch(boardClick(x, y, false, hitShip, !hitShip))
-    
+            //exited while loop means, isUnselected returned true
+            let unselected = false;
+            let isEnemyBoard = false;
+            dispatch(boardClick(x, y, isEnemyBoard, hitShip, !hitShip, unselected))
+            if(hitShip){
+                let oldScore = aiScore;
+                IncrementAIScore(oldScore+1)
+            }
           }
         
-          if(!aiPlayed){
+          if(!aiPlayed && !isFreePlay){
             aiTurn();
           }
         
+          function incrementPlayerScore(isHit){
+            incrementScore(playerScore + isHit)
+          }
         // let playerZeroWins = false;
         // let playerOneWins = false;
         // let player_one_score = boardStats.player_one.score;
@@ -87,7 +99,7 @@ function Game() {
                     <div className={winnerBoardClass}> Congratulations! You hit all ships</div> */}
                 </div>
                 <div className="col-lg-9 col-md-12 col-sm-12">
-                    <Board player_id ="0"/>
+                    <Board enemy ={false}/>
                 </div>
                 </div>
             </div>);
@@ -103,11 +115,13 @@ function Game() {
             <Restart/>
             <div className="row">
                 <div className='col-lg-6 col-md-12 col-sm-12 playerBoard'>
+                    <h3>Your Board, AI Score: {aiScore}</h3>
                     <Board enemy={false}/>
                 </div>
                 
                 <div className="col-lg-6 col-md-12 col-sm-12">
-                    <Board enemy={true}/>
+                <h3>Enemy Board, Your Score: {playerScore}</h3>
+                    <Board enemy={true} doIncrementEnemyScore={incrementPlayerScore}/>
                 </div>
             </div>
         </div>);
