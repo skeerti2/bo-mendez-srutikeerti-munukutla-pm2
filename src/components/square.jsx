@@ -3,6 +3,7 @@ import '../square.css';
 import { boardClick } from '../actions/board';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { scryRenderedDOMComponentsWithTag } from 'react-dom/test-utils';
 
 export function Square(props) {
 const user_board = useSelector(state => state.BoardReducer.user_board);
@@ -50,9 +51,11 @@ const user_board = useSelector(state => state.BoardReducer.user_board);
     let hoverClass = 'hoverClass';
 
     let icon = "";
+    if(!props.enemy){
     if (props.is_boat) {
         colorClass = 'ship';
         icon = "fa fa-ship";
+    }
     }
 
     if (props.hit) {
@@ -66,13 +69,22 @@ const user_board = useSelector(state => state.BoardReducer.user_board);
     
 
     function handleClick(){
-        let isHit = false;
+        
+        let unselected = board_state[props.row][props.col].unselected; 
         console.log(board_state[props.row][props.col]);
-       if(board_state[props.row][props.col].isBoat){
-            isHit = true;
+        if(unselected){
+            let isHit = false;
+            //console.log(board_state[props.row][props.col]);
+            if(board_state[props.row][props.col].isBoat){
+                isHit = true;
+            }
+            dispatch(boardClick(props.row, props.col, props.enemy, isHit, !isHit, !unselected))
+            if(isHit){
+                props.toIncrementScore(1);
+            }else{
+                props.toIncrementScore(0);
+            }
         }
-        dispatch(boardClick(props.row, props.col, props.enemy, isHit, !isHit))
-
     }
 
     return (

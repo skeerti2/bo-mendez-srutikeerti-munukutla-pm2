@@ -37,7 +37,7 @@ function buildSquare(){
       hit:false,
       miss: false,
       isBoat: false,
-      unselected: false
+      unselected: true
     }
   return squareState;
 }
@@ -279,15 +279,17 @@ export const BoardReducer = (state, action) => {
     let squareCopy = { ...boardCopy[action.payload.row][action.payload.col] };
     squareCopy.hit = action.payload.hit;
     squareCopy.miss = action.payload.miss;
-    squareCopy.unselected = false;
+    squareCopy.unselected = action.payload.unselected;
     boardCopy[action.payload.row][action.payload.col] = squareCopy;
     if(action.payload.enemy){
+      console.log('dispatched action for enemy board')
       return {
         ...state,
         ai_board : boardCopy,
         aiPlayed : false
       }
     }else{
+      console.log('dispatched action for ai move')
       return {
         ...state,
         user_board : boardCopy,
