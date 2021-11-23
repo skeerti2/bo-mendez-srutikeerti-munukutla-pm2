@@ -301,7 +301,10 @@ export const BoardReducer = (state, action) => {
   if(action.type === SET_GAME_TYPE){
      return {
      ...state,
-     freePlay : action.payload.gameType === "normal" ? false : true
+     freePlay : action.payload.gameType === "normal" ? false : true,
+     user_board: buildBoard(),
+     ai_board: buildBoard(),
+     aiPlayed: true
      }
     }
   if (action.type === RESTART) {
