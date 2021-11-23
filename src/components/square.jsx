@@ -51,12 +51,12 @@ const user_board = useSelector(state => state.BoardReducer.user_board);
     let hoverClass = 'hoverClass';
 
     let icon = "";
-    if(!props.enemy){
+    //if(!props.enemy){
     if (props.is_boat) {
         colorClass = 'ship';
         icon = "fa fa-ship";
     }
-    }
+    //}
 
     if (props.hit) {
         colorClass = 'hitSquare';

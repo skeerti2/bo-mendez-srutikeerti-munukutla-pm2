@@ -94,7 +94,6 @@ function shipPlacementValid(row, col, length, isVertical, board) {
   }
   return true;
 }
-
 // Adds the row/col of each ship to the given player's ships attribute
 function fillShip(row, col, length, fillVertical, board) {
   let currRow = row;

@@ -32,7 +32,7 @@ function Game() {
           }
         
           function isUnselected(x_coord, y_coord) {
-            if(ai_board[x_coord][y_coord].unselected){
+            if(user_board[x_coord][y_coord].unselected){
                 return true;
             }else{
                 return false
@@ -41,7 +41,7 @@ function Game() {
 
         
         function checkCoordinateIsShip(x_coord, y_coord) {
-            if(ai_board[x_coord][y_coord].isBoat){
+            if(user_board[x_coord][y_coord].isBoat){
                 return true;
             }
                 return false
