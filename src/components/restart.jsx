@@ -7,7 +7,6 @@ export function Restart(props) {
     const dispatch = useDispatch();
 
     function handleClick() {
-        //window.localStorage.clear();
         props.score();
         dispatch(restart(isFreePlay));
         

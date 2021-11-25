@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import '../square.css';
 import { boardClick } from '../actions/board';
 import { useState } from 'react';
@@ -20,22 +20,6 @@ let board_state;
 
     const isFreePlay = useSelector(state => state.BoardReducer.freePlay);
     const dispatch = useDispatch();
-
-
-
-
-  
-
-    //for free play, dont diplay ships at all
-    if (isFreePlay) {
-        // for (let ship in shipsOnBoard) {
-        //     if (checkCoordinateIsShip(ship)) {
-        //         if (unselected) {
-        //             colorClass = 'unclicked';
-        //         }
-        //     }
-        // }
-    }
     
 
     function setMouseEnter() {
@@ -46,19 +30,16 @@ let board_state;
         setHover(false)
     }
 
-
-
-    
     let colorClass='unclicked';
     let hoverClass = 'hoverClass';
 
     let icon = "";
-    //if(!props.enemy){
+    if(!props.enemy){
     if (props.is_boat) {
         colorClass = 'ship';
         icon = "fa fa-ship";
     }
-    //}
+    }
 
     if (props.hit) {
         colorClass = 'hitSquare';
@@ -75,7 +56,6 @@ let board_state;
         let unselected = board_state[props.row][props.col].unselected; 
         if(unselected){
             let isHit = false;
-            //console.log(board_state[props.row][props.col]);
             if(board_state[props.row][props.col].isBoat){
                 isHit = true;
             }
@@ -89,7 +69,6 @@ let board_state;
     }
 
     return (
-        //change to include  onhover event next
         <td  className={hover? hoverClass : colorClass} onClick={handleClick} onMouseEnter={setMouseEnter} onMouseLeave={setMouseLeave}>
             {<i class={icon}></i>}
         </td>

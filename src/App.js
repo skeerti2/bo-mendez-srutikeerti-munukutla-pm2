@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import { Routes, Route, Link } from "react-router-dom";
 import Landing from './components/Landing.jsx';
 import Instructions from './components/Instructions.jsx';

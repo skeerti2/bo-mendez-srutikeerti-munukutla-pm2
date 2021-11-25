@@ -1,8 +1,7 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Board from './board.jsx';
 import Restart from './restart.jsx';
 import { useSelector, useDispatch } from 'react-redux';
-// import { switchTurns } from '../actions/player';
 import { boardClick } from '../actions/board';
 
 const aiScoreFromLocalStorage = JSON.parse(localStorage.getItem("aiScore") || "0")
@@ -88,28 +87,6 @@ function Game() {
             incrementScore(playerScore + isHit)
           }
 
-        // let playerZeroWins = false;
-        // let playerOneWins = false;
-        // let player_one_score = boardStats.player_one.score;
-        // let player_zero_score= boardStats.player_zero.score;
-        // let winnerBoardClass = 'NoWinner';
-        // if(player_one_score === 0){
-        //     playerZeroWins = true;
-        //     winnerBoardClass = 'WinnerBoard';
-        // }else if(player_zero_score === 0){
-        //     playerOneWins = true;
-        //     winnerBoardClass = 'WinnerBoard';
-        // }
-        // //board display switch based on turn
-        // let leftClassStat = '';
-        // let rightClassStat = '';
-        // if(!playerTurn){
-        //     leftClassStat = 'classOverlay';
-        //     rightClassStat = 'highlight';
-        // }else{
-        //     rightClassStat = 'classOverlay';
-        //     leftClassStat = 'highlight';
-        // }
         if(isFreePlay){
             return(
                 <div className="container board-wrapper">

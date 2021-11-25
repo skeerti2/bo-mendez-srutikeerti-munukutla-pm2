@@ -126,11 +126,6 @@ a:visited {
     color: white;
 }
 
-/* .board-class{
-    display: flex;
-    justify-content: center;
-} */
-
 .ships-display{
     display: flex;
     flex-direction: column;
@@ -140,7 +135,6 @@ a:visited {
 }
 
 .ship{
-    /* max-width: 100%; */
     height: 60px;
 }
 
