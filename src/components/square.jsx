@@ -5,11 +5,13 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { scryRenderedDOMComponentsWithTag } from 'react-dom/test-utils';
 
+
+
 export function Square(props) {
 const user_board = useSelector(state => state.BoardReducer.user_board);
-  const ai_board = useSelector(state => state.BoardReducer.ai_board);
-    const [hover, setHover] = useState(false)
-  let board_state;
+const ai_board = useSelector(state => state.BoardReducer.ai_board);
+const [hover, setHover] = useState(false)
+let board_state;
   if(props.enemy){
     board_state = ai_board;
   }else{
@@ -71,7 +73,6 @@ const user_board = useSelector(state => state.BoardReducer.user_board);
     function handleClick(){
         
         let unselected = board_state[props.row][props.col].unselected; 
-        console.log(board_state[props.row][props.col]);
         if(unselected){
             let isHit = false;
             //console.log(board_state[props.row][props.col]);

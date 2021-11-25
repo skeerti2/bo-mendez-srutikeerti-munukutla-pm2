@@ -16,7 +16,7 @@ function Board(props) {
   }else{
     board_state = user_board;
   }
-  //console.log(board_state);
+  
   const board = initializeBoard();
   
   function initializeBoard() {

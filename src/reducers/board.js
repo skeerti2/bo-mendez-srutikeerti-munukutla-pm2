@@ -62,7 +62,6 @@ function placeOneShip(shipType, shipSize, board) {
   let randomCol = newRowCol[1];
   // fillShip(randomRow, randomCol, shipSize, isVertical, board);
   while (!shipPlacementValid(randomRow, randomCol, shipSize, isVertical, board)) {
-    console.log("entered while")
     newRowCol = getRowAndCol(shipSize, isVertical);
     randomRow = newRowCol[0];
     randomCol = newRowCol[1];
@@ -80,13 +79,11 @@ function shipPlacementValid(row, col, length, isVertical, board) {
   for (let i = 0; i < length; i++) {
     if (isVertical) {
       if (board[col][currRow].isBoat) {
-        console.log("false vert at x:", col, "y:", currRow);
         return false;
       }
       currRow++;
     } else {
       if (board[currCol][row].isBoat) {
-        console.log("false horiz at x:", currCol, "y:", row);
         return false;
       }
       currCol++;
@@ -101,11 +98,9 @@ function fillShip(row, col, length, fillVertical, board) {
   for (let i = 0; i < length; i++) {
     if (fillVertical) {
       board[col][currRow].isBoat = true;
-      console.log("add vertical ship at", col, currRow, board)
       currRow++;
     } else {
       board[currCol][row].isBoat = true;
-      console.log("add horizontal ship at", currCol, row, board)
       currCol++;
     }
   }
@@ -281,14 +276,12 @@ export const BoardReducer = (state, action) => {
     squareCopy.unselected = action.payload.unselected;
     boardCopy[action.payload.row][action.payload.col] = squareCopy;
     if(action.payload.enemy){
-      console.log('dispatched action for enemy board')
       return {
         ...state,
         ai_board : boardCopy,
         aiPlayed : false
       }
     }else{
-      console.log('dispatched action for ai move')
       return {
         ...state,
         user_board : boardCopy,
