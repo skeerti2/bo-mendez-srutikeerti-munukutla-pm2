@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {Link} from 'react-router-dom';
 import {setGameType} from '../actions/gametype';
 function Landing(){
