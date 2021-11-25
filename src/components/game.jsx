@@ -1,10 +1,12 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import Board from './board.jsx';
 import Restart from './restart.jsx';
 import { useSelector, useDispatch } from 'react-redux';
 // import { switchTurns } from '../actions/player';
 import { boardClick } from '../actions/board';
 
+const aiScoreFromLocalStorage = JSON.parse(localStorage.getItem("aiScore") || "0")
+const playerScoreFromLocalStorage = JSON.parse(localStorage.getItem("playerScore") || "0")
  
 function Game() {
         const dispatch = useDispatch();
@@ -12,19 +14,25 @@ function Game() {
         const user_board = useSelector(state => state.BoardReducer.user_board);
         const ai_board = useSelector(state => state.BoardReducer.ai_board);
         const aiPlayed = useSelector(state => state.BoardReducer.aiPlayed);
-        const [aiScore, IncrementAIScore] = useState(0);
-        const [playerScore, incrementScore] = useState(0);
+        const [aiScore, IncrementAIScore] = useState(aiScoreFromLocalStorage);
+        const [playerScore, incrementScore] = useState(playerScoreFromLocalStorage);
 
+        useEffect(() => {
+            localStorage.setItem("aiScore", JSON.stringify(aiScore));
+            console.log(localStorage.getItem("aiScore"))
+        }, [aiScore]);
 
+        useEffect(() => {
+            localStorage.setItem("playerScore", JSON.stringify(playerScore));
+            console.log(localStorage.getItem("playerScore"))
+        }, [playerScore]);
 
         let winner = ""
         if (aiScore == 17) {
             winner = "AI wins! Better luck next time."
-            console.log("ai wins")
         }
         if (playerScore == 17) {
             winner = "You win! Congrats!"
-            console.log("ai wins")
         }
       
         function getRandomInteger(maxInt) {
@@ -48,7 +56,6 @@ function Game() {
           }
         
           function aiTurn() {
-            //console.log("aiClick()");
             let x = getRandomInteger(10)
             let y = getRandomInteger(10)
     
@@ -109,9 +116,9 @@ function Game() {
                 <h1>Battleship</h1>
                 <h2>{winner}</h2>
                 <Restart score={resetScores}/>
-                <h3>Your Score: {playerScore}</h3>
                 <div className="row">
                 <div className="col-lg-3 col-md-12 col-sm-12">
+                    <h3>Your Score: {playerScore}</h3>
                     {/* <div className="ScoreBoard">          
                     Ships Hit: {(17- boardStats.player_zero.score)}</div>
                     <div className={winnerBoardClass}> Congratulations! You hit all ships</div> */}
